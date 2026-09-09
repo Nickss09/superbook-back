@@ -1,98 +1,317 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+*User*
+Representa o usuário da plataforma.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+-Campos
+-id
+-name
+-username
+-email
+-password
+-bio
+-avatar
+-banner
+-birthDate
+-location
+-website
+-verified
+-createdAt
+-updatedAt
+-Relacionamentos
+-bookshelves
+-reviews
+-comments
+-likes
+-quotes
+-readingSessions
+-readingGoals
+-notifications
+-followers
+-following
+-achievements
+-customLists
+2. Book
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Representa um livro.
 
-## Description
+Campos
+id
+title
+subtitle
+description
+isbn10
+isbn13
+pages
+language
+publishDate
+edition
+coverImage
+averageRating
+totalRatings
+totalReviews
+publisherId
+createdAt
+updatedAt
+Relacionamentos
+authors
+genres
+publisher
+reviews
+shelves
+quotes
+readingSessions
+3. Author
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Representa um autor.
 
-## Project setup
+Campos
+id
+name
+biography
+photo
+birthDate
+deathDate
+country
+Relacionamentos
+books
+4. Publisher
 
-```bash
-$ npm install
-```
+Editora.
 
-## Compile and run the project
+Campos
+id
+name
+logo
+website
+description
+Relacionamentos
+books
+5. Genre
 
-```bash
-# development
-$ npm run start
+Gênero literário.
 
-# watch mode
-$ npm run start:dev
+Campos
+id
+name
+description
+Relacionamentos
+books
+6. BookAuthor (Tabela N:N)
+Campos
+bookId
+authorId
+7. BookGenre (Tabela N:N)
+Campos
+bookId
+genreId
+8. UserBookshelf
 
-# production mode
-$ npm run start:prod
-```
+Representa um livro na estante do usuário.
 
-## Run tests
+Campos
+id
+userId
+bookId
+status
+currentPage
+startedAt
+finishedAt
+rating
+favorite
+private
+rereadCount
+createdAt
+updatedAt
+9. Review
 
-```bash
-# unit tests
-$ npm run test
+Resenha.
 
-# e2e tests
-$ npm run test:e2e
+Campos
+id
+title
+content
+rating
+spoiler
+likesCount
+commentsCount
+createdAt
+updatedAt
+userId
+bookId
+Relacionamentos
+comments
+likes
+10. Comment
 
-# test coverage
-$ npm run test:cov
-```
+Comentários da resenha.
 
-## Deployment
+Campos
+id
+content
+createdAt
+updatedAt
+userId
+reviewId
+11. Like
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Curtidas.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Campos
+userId
+reviewId
+createdAt
+12. Follow
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+Usuário seguindo outro.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Campos
+followerId
+followingId
+createdAt
+13. Quote
 
-## Resources
+Trechos favoritos.
 
-Check out a few resources that may come in handy when working with NestJS:
+Campos
+id
+content
+page
+chapter
+visibility
+createdAt
+userId
+bookId
+14. ReadingSession
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Sessão de leitura.
 
-## Support
+Campos
+id
+userId
+bookId
+pagesRead
+minutesRead
+startedAt
+endedAt
+15. ReadingGoal
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Meta anual.
 
-## Stay in touch
+Campos
+id
+year
+booksGoal
+pagesGoal
+booksCompleted
+pagesCompleted
+userId
+16. Achievement
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Conquistas.
 
-## License
+Campos
+id
+name
+description
+icon
+points
+17. UserAchievement
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Tabela N:N.
+
+Campos
+userId
+achievementId
+unlockedAt
+18. Notification
+
+Notificações.
+
+Campos
+id
+type
+title
+message
+read
+senderId
+receiverId
+createdAt
+19. BookList
+
+Listas criadas pelos usuários.
+
+Exemplo:
+
+Livros Favoritos
+Quero Comprar
+Melhores de Fantasia
+Campos
+id
+name
+description
+visibility
+userId
+createdAt
+20. BookListItem
+
+Tabela N:N.
+
+Campos
+listId
+bookId
+addedAt
+21. Badge
+
+Selos do perfil.
+
+Campos
+id
+name
+description
+icon
+22. UserBadge
+
+Tabela N:N.
+
+Campos
+userId
+badgeId
+unlockedAt
+23. Recommendation
+
+Livros recomendados ao usuário.
+
+Campos
+id
+userId
+bookId
+reason
+score
+createdAt
+24. Report
+
+Denúncias.
+
+Campos
+id
+type
+reason
+reporterId
+targetId
+status
+createdAt
+25. Activity
+
+Feed de atividades.
+
+Exemplos:
+
+Arthur terminou "O Hobbit"
+Arthur avaliou com 5 estrelas
+Arthur começou a ler
+Campos
+id
+type
+userId
+bookId
+reviewId
+createdAt
