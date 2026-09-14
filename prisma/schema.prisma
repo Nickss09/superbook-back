@@ -7,21 +7,156 @@ datasource db {
   provider = "postgresql"
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  name String
-  usuario String
-  email String @unique
-  senha String
-  idade Int
-  livros_lidos Int
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique
+  email     String   @unique
+  password  String
+  idade     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookshelves UserBookshelf[]
+  reviews     Review[]
+  comment     Comment[]
+  likes       Like[]
 }
 
-model Livros{
-  id Int @id @default(autoincrement())
-  titulo String
-  autor String
-  ano Int
-  nota Float
-  quant_leram Int
+model Author {
+  id    Int    @id @default(autoincrement())
+  name  String
+  idade Int
+
+  books BookAuthor[]
+}
+
+model Publisher {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  book Book[]
+}
+
+model Genre {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  book BookGenre[]
+}
+
+model Book {
+  id          Int      @id @default(autoincrement())
+  title       String
+  subtitle    String?
+  description String
+  isbn        String?  @unique
+  pages       Int?
+  language    String?
+  publishDate DateTime
+
+  publisherId String?
+  publisher   Publisher? @relation(fields: [publisherId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  autor   BookAuthor[]
+  genre   BookGenre[]
+  shelves UserBookshelf[]
+  review  Review[]
+}
+
+model BookAuthor {
+  bookId   String
+  authorId String
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  author Author @relation(fields: [authorId], references: [id])
+
+  @@id([bookId, authorId])
+}
+
+model BookGenre {
+  bookId  String
+  genreId String
+
+  book  Book  @relation(fields: [bookId], references: [id])
+  genre Genre @relation(fields: [genreId], references: [id])
+
+  @@id([bookId, genreId])
+}
+
+model UserBookshelf {
+  id     String @id @default(cuid())
+
+  userId String
+  bookId String
+
+  status ReadingStatus
+
+  currentPage Int?
+  startedAt   DateTime?
+  finishedAt  DateTime?
+
+  rating Float?
+
+  favorite Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
+
+  @@unique([userId, bookId])
+}
+
+enum ReadingStatus {
+  QUERO_LER
+  LENDO
+  LIDO
+  ABANDONADO
+}
+
+model Review {
+  id String @id @default(cuid())
+
+  title   String?
+  content String
+
+  rating Float
+
+  spoiler Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  userId String
+  bookId String
+
+  user User @relation(fields: [userId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
+
+  comments Comment[]
+  likes Like[]
+}
+
+model Comment{
+  id String @id @default(cuid())
+  content String
+
+  createdAt DateTime @default(now())
+
+  reviewId String
+  userId String
+
+  review Review @relation(fields: [reviewId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Like{
+  userId String
+  reviewId String
+
+  user User @relation(fields: [userId], references: [id])
+  review Review @relation(fields: [reviewId], references: [id])
+
+  @@id([userId,reviewId])
 }
