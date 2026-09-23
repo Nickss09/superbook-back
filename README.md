@@ -518,7 +518,7 @@ Esse teste inicia a aplicação e verifica se a rota principal responde com o st
 
 O projeto utiliza Jest e Supertest para realizar os testes.
 
-## Integração com o Front-end
+- Integração com o Front-end
 
 O front-end e o back-end foram construídos como projetos separados. Durante o desenvolvimento, o front-end normalmente é executado em "http://localhost:3000", enquanto este backend utiliza "http://localhost:3001".
 
