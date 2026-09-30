@@ -13,7 +13,6 @@ export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(userData: CreateUserDto) {
-    console.log(userData);
     const emailAlreadyExists = await this.findByEmail(userData.email);
 
     if (emailAlreadyExists) {

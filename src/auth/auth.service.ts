@@ -1,7 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
 import bcrypt from 'bcrypt';
+
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
     const isPasswordValid = bcrypt.compareSync(password, user.password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('E-mail or password,is incorrect');
+      throw new UnauthorizedException('E-mail or password is incorrect');
     }
 
     const payload = { sub: user.id, email: user.email };
